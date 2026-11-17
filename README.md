@@ -9,6 +9,11 @@ An analogue watch face for Garmin inspired by the IWC Ingenieur (built and teste
 - dial colours: Black, Blue (default), Aqua, Silver; optional seconds hand
 - low-power always-on mode for AMOLED watches (outlines only, burn-in shift)
 
+## On a real watch
+<img src="screenshots/real-fr265.jpg" width="360" alt="Classic on a Forerunner 265">
+
+*Forerunner 265, Blue dial (the camera exaggerates the AMOLED blue).*
+
 ## Screenshots
 Real renders from the Connect IQ simulator (fixed 10:09 with sample data).
 
