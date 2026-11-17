@@ -1,0 +1,3 @@
+# Used only by tools/screenshots.sh:  monkeyc -f "monkey.jungle;demo.jungle"
+base.excludeAnnotations = nodemo
+base.sourcePath = source;bin/demo

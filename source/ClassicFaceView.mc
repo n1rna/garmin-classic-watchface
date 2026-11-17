@@ -22,14 +22,14 @@ class ClassicFaceView extends WatchUi.WatchFace {
         [0x000000, 0x050506, 0x1A1C1F, 0xE8EAEC, 0x8C9096, 0xC9CDD2, 0x111214], // black
         [0x000000, 0x04080F, 0x173659, 0xEEF1F4, 0x9DB3CC, 0xC9CDD2, 0x0F2C52], // blue
         [0x000000, 0x030B0A, 0x1E4E4A, 0xEEF2F1, 0xA9C9C6, 0xD3D7DB, 0x123A37], // aqua
-        [0x000000, 0x5E6368, 0xB9BCC0, 0x1E2124, 0x55595F, 0x41454A, 0xE4E6E8]  // silver
+        [0x000000, 0x5E6368, 0xB9BCC0, 0x16181B, 0x33363B, 0x41454A, 0xE4E6E8]  // silver
     ];
     // texture: [groove, bar dark, bar light, edge-highlight dark, edge-highlight light]
     const TEXTURES = [
         [0x060607, 0x17191C, 0x45494F, 0x3C4045, 0x9AA0A6],
         [0x04070D, 0x0B3A68, 0x4C88BA, 0x4A7FAE, 0xB8D4EC],
         [0x040C0B, 0x0F3A37, 0x3E8A84, 0x2F6D68, 0xA6DAD4],
-        [0x6A6F74, 0xA4A8AD, 0xD8DADD, 0xC4C7CB, 0xF6F7F8]
+        [0x9A9EA3, 0xC0C3C7, 0xE2E4E6, 0xD4D7DA, 0xF8F9FA]
     ];
     // dial shadow: 1.0 = no shadow, lower = darker dial
     const DIAL_SHADE = 0.70;
@@ -71,6 +71,7 @@ class ClassicFaceView extends WatchUi.WatchFace {
     var _icons = null;
     var _iconsSmall = null;
     var _winFont = Graphics.FONT_XTINY;
+    var _rowFont = Graphics.FONT_TINY;
     // window geometry (fixed, so the frames can live in the static layer)
     var _winH = 0;
     var _dateX = 0;
@@ -106,6 +107,11 @@ class ClassicFaceView extends WatchUi.WatchFace {
                 :size => (_r * 0.085).toNumber()
             });
             if (vf != null) { _winFont = vf; }
+            var rf = Graphics.getVectorFont({
+                :face => ["RobotoCondensedRegular", "RobotoCondensedBold", "RobotoRegular"],
+                :size => (_r * 0.105).toNumber()
+            });
+            if (rf != null) { _rowFont = rf; }
         }
 
         _winH = Math.round(_r * 0.13).toNumber();
@@ -151,6 +157,8 @@ class ClassicFaceView extends WatchUi.WatchFace {
         } catch (e) {
             // keep defaults
         }
+        var demoDial = demoTheme();
+        if (demoDial != null) { _theme = demoDial; }
         if (old != _theme) {
             _bg = null;
             _bgRef = null;
@@ -163,7 +171,7 @@ class ClassicFaceView extends WatchUi.WatchFace {
 
     // ========================================================================
     function onUpdate(dc) {
-        var clock = System.getClockTime();
+        var clock = demoClock(System.getClockTime());
 
         if (!_isAwake && _burnIn) {
             if (dc has :setAntiAlias) { dc.setAntiAlias(true); }
@@ -408,6 +416,11 @@ class ClassicFaceView extends WatchUi.WatchFace {
                 text = Math.round(t).toNumber().format("%d") + "°";
             }
         }
+        var demo = demoData();
+        if (demo != null) {
+            glyph = weatherGlyph(demo[2]);
+            text = demo[3].format("%d") + "°";
+        }
         var iw = dc.getTextWidthInPixels(glyph, _iconsSmall);
         var gap = _r * 0.018;
         var x0 = _wxX + (_wxW - (iw + gap + dc.getTextWidthInPixels(text, _winFont))) / 2;
@@ -491,17 +504,22 @@ class ClassicFaceView extends WatchUi.WatchFace {
         var steps = null;
         var info = ActivityMonitor.getInfo();
         if (info != null) { steps = info.steps; }
+        var demo = demoData();
+        if (demo != null) {
+            hr = demo[0];
+            steps = demo[1];
+        }
 
-        drawIconValue(dc, _cx - _r * 0.24, y, IC_HEART, hr == null ? "--" : hr.format("%d"));
-        drawIconValue(dc, _cx + _r * 0.24, y, IC_STEPS, steps == null ? "--" : groupThousands(steps));
+        drawIconValue(dc, _cx - _r * 0.25, y, IC_HEART, hr == null ? "--" : hr.format("%d"));
+        drawIconValue(dc, _cx + _r * 0.25, y, IC_STEPS, steps == null ? "--" : groupThousands(steps));
     }
 
     // icon + value, centred as a group on (cx, y)
     function drawIconValue(dc, cx, y, glyph, text) {
-        var font = Graphics.FONT_TINY;
+        var font = _rowFont;
         var iw = dc.getTextWidthInPixels(glyph, _icons);
         var tw = dc.getTextWidthInPixels(text, font);
-        var gap = _r * 0.03;
+        var gap = _r * 0.045;
         var x0 = cx - (iw + gap + tw) / 2;
         dc.setColor(c(4), Graphics.COLOR_TRANSPARENT);
         dc.drawText(x0, y, _icons, glyph, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
@@ -660,6 +678,24 @@ class ClassicFaceView extends WatchUi.WatchFace {
             dc.drawLine(p[0], p[1], q[0], q[1]);
         }
     }
+
+    // ---- screenshot demo mode ---------------------------------------------
+    // Normal builds exclude the (:demo) versions (see monkey.jungle). The
+    // screenshot build (tools/screenshots.sh) swaps them in for a fixed
+    // 10:09 time, sample data and a chosen dial colour.
+    (:nodemo) function demoClock(clock) { return clock; }
+    (:nodemo) function demoTheme() { return null; }
+    (:nodemo) function demoData() { return null; }
+
+    (:demo) function demoClock(clock) {
+        clock.hour = 10;
+        clock.min = 9;
+        clock.sec = 36;
+        return clock;
+    }
+    (:demo) function demoTheme() { return DemoConfig.DIAL; }
+    // [heart rate, steps, weather condition, temperature]
+    (:demo) function demoData() { return [62, 8432, 1, 12]; }
 
     // ---- geometry helpers --------------------------------------------------
     // Point at distance `along` from centre in direction `a` (0 = 12 o'clock,

@@ -1,1 +1,3 @@
 project.manifest = manifest.xml
+# screenshot-only code is compiled out of normal builds (see demo.jungle)
+base.excludeAnnotations = demo
