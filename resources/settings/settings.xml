@@ -1,0 +1,13 @@
+<settings>
+    <setting propertyKey="@Properties.DialColor" title="@Strings.DialTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.DialBlack</listEntry>
+            <listEntry value="1">@Strings.DialBlue</listEntry>
+            <listEntry value="2">@Strings.DialAqua</listEntry>
+            <listEntry value="3">@Strings.DialSilver</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.ShowSeconds" title="@Strings.SecondsTitle">
+        <settingConfig type="boolean"/>
+    </setting>
+</settings>

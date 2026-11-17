@@ -1,0 +1,4 @@
+<fonts>
+    <font id="Icons" filename="icons.fnt" antialias="true" filter="ABCDEFGHI"/>
+    <font id="IconsSmall" filename="icons_small.fnt" antialias="true" filter="ABCDEFGHI"/>
+</fonts>

@@ -1,0 +1,4 @@
+<properties>
+    <property id="DialColor" type="number">1</property>
+    <property id="ShowSeconds" type="boolean">true</property>
+</properties>

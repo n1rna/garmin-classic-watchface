@@ -1,0 +1,18 @@
+[
+  {
+    "label": "Garmin: run in simulator",
+    "command": "make run",
+    "use_new_terminal": false,
+    "reveal": "always"
+  },
+  {
+    "label": "Garmin: build",
+    "command": "make build",
+    "reveal": "always"
+  },
+  {
+    "label": "Garmin: run on another device",
+    "command": "make run DEVICE=${DEVICE:-fr265s}",
+    "reveal": "always"
+  }
+]

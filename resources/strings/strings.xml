@@ -1,0 +1,9 @@
+<strings>
+    <string id="AppName">Classic</string>
+    <string id="DialTitle">Dial colour</string>
+    <string id="DialBlack">Black</string>
+    <string id="DialBlue">Blue</string>
+    <string id="DialAqua">Aqua</string>
+    <string id="DialSilver">Silver</string>
+    <string id="SecondsTitle">Show seconds hand</string>
+</strings>
