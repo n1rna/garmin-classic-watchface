@@ -10,7 +10,7 @@ import Toybox.Time.Gregorian;
 import Toybox.WatchUi;
 import Toybox.Weather;
 
-// "Classic" — an engineer's-watch style analogue face:
+// "Classic" — an analogue face inspired by the IWC Ingenieur:
 // woven grid-textured dial, steel batons
 // with lume inlays, day-date window at 3, plus digital time, weather,
 // heart rate and steps.

@@ -1,6 +1,6 @@
 # Classic — Garmin watch face
 
-An engineer's-watch style analogue face for Garmin (built and tested on the Forerunner 265):
+An analogue watch face for Garmin inspired by the IWC Ingenieur (built and tested on the Forerunner 265):
 
 - woven checkerboard dial texture with lighting and a rim shadow
 - faceted steel hands and applied markers with lume inlays
@@ -53,3 +53,7 @@ After `make install`, unplug the watch and pick **Classic** from the watch-face 
 - `tools/install_to_watch.py` — MTP copy via libmtp
 - `tools/screenshots.sh`, `demo.jungle` — screenshot build (demo time/data compiled in only there)
 - `preview/face.html` — browser mock-up mirroring the watch code
+
+## Disclaimer
+A personal, non-commercial fan project. IWC and Ingenieur are trademarks of IWC Schaffhausen;
+this project is not affiliated with or endorsed by IWC or Garmin.
